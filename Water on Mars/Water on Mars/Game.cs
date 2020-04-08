@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Threading;
 
 namespace Water_on_Mars
@@ -8,7 +7,7 @@ namespace Water_on_Mars
     {
         public static void Message(string say, ConsoleColor color)
         {
-            Console.ForegroundColor = color;
+            Color.Text(color);
             foreach (char letter in say)
             {
                 Console.Write(letter);
