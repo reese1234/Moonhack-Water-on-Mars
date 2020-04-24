@@ -19,5 +19,6 @@ namespace Water_on_Mars
         public static ConsoleColor Green = ConsoleColor.Green;
         public static ConsoleColor Cyan = ConsoleColor.Cyan;
         public static ConsoleColor Yellow = ConsoleColor.Yellow;
+        public static ConsoleColor White = ConsoleColor.White;
     }
 }

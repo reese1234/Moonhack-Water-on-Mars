@@ -18,6 +18,14 @@ namespace Water_on_Mars
             Thread.Sleep(500);
         }
 
+        public static void Choice(string question, string A, string B)
+        {
+            Message(question, Color.Cyan);
+            Color.Text(Color.White);
+            Console.WriteLine($"(A) {A}");
+            Console.WriteLine($"(B) {B}");
+        }
+
         public static void Water(int change)
         {
             if (change == 0)
@@ -25,30 +33,35 @@ namespace Water_on_Mars
                 Message("No water change.", Color.Yellow);
             } else
             {
-                Program.water += change;
-                Message($"{change}L water: {Program.water}L", Color.Yellow);
+                Data.Water += change;
+                Message($"{change}L water: {Data.Water}L", Color.Yellow);
             }
         }
-
         public static void Water(string up, int change, string reason)
         {
             if (!(change == 0)) {
                 if (up == "+")
                 {
-                    Program.water += change;
-                    Message($"+{change}L water ({reason}): {Program.water}L", Color.Green);
+                    Data.Water += change;
+                    Message($"+{change}L water ({reason}): {Data.Water}L", Color.Green);
                 }
                 else if (up == "-")
                 {
-                    Program.water -= change;
-                    Message($"-{change}L water ({reason}): {Program.water}L", Color.Red);
+                    Data.Water -= change;
+                    Message($"-{change}L water ({reason}): {Data.Water}L", Color.Red);
                 }
             }
         }
 
+        public static int Rnd(int min, int max)
+        {
+            Random r = new Random();
+            return r.Next(min, max);
+        }
+
         public static void Exit()
         {
-            Message($"Game Over! You survived for {Program.day} days.", Color.Red);
+            Message($"Game Over! You survived for {Data.Day} days.", Color.Red);
             Message("Would you like to try again?", Color.Cyan);
             for (; ; )
             {

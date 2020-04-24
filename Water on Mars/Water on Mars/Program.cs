@@ -1,32 +1,15 @@
 ﻿using System;
 using System.Threading;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Water_on_Mars
 {
-
-    //Pull request test
-    //try accepting this somehow
     class Program
     {
-        public static int water = 1000;
-        public static int day = 1;
-
-        public static string Event;
+        public static string DailyEvent;
         public static string input;
 
-        public static List<Daily> events = new List<Daily>
-        {
-           new Daily {Event = "You are beginning to smell, do you take a shower?", Yes = Rnd(-200, -100), No = 0 },
-           new Daily {Event = "You hear a hissing sound, do you investigate?", Yes = Rnd(-100, -50), No = Rnd(-600, -300) },
-           new Daily {Event = "A lump of ice has fallen from the sky nearby, do you retrieve it?", Yes = Rnd(50, 150), No = Rnd(-50, -25) },
-           new Daily {Event = "You watched a YouTube video about the best lawns in the solar system. Do you decide to try and grow a lawn in the desolate Martian soils?", Yes = Rnd(-350, -200), No = 0 },
-           new Daily {Event = "Your cousin Harold has mysteriously appeared. Do you send him away?", Yes = Rnd(-50, -25), No = Rnd(-250, -100) },
-           new Daily {Event = "Mmm, salty food. Do you eat it?", Yes = Rnd(-10, -3), No = 0 },
-        };
-
-        static void Main(string[] args)
+        static void Main()
         {
             for (; ; )
             {
@@ -52,58 +35,54 @@ namespace Water_on_Mars
 
         public static void Play()
         {
-            water = 1000;
-            day = 1;
-            while (water > 0)
+            Data.Water = 1000;
+            Data.Day = 1;
+            while (Data.Water > 0)
             {
-                Game.Message($"Day {day}!", Color.Green);
-                Game.Water("-", Rnd(1, 15), "A day passed");
-                if (Rnd(1, 6) < 5)
+                Game.Message($"Day {Data.Day}", Color.Green);
+                Game.Water("-", Game.Rnd(1, 15), "A Day passed");
+                if (Game.Rnd(1, 6) < 5)
                 {
-                    var randNumber = Rnd(0, events.Count);
-                    Event = events[randNumber].Event;
-                    Game.Message(Event, Color.Cyan);
+                    var randNumber = Game.Rnd(0, Data.events.Count);
+                    DailyEvent = Data.events[randNumber].Question;
+                    Game.Choice(DailyEvent, "Yes", "No");
                     for (; ; )
                     {
+                        Color.Text(Color.White);
                         Console.Write("> ");
+                        Color.Text(Color.Green);
                         input = Console.ReadLine().ToLower();
 
-                        if (choice("yes", "y"))
+                        if (choice("a"))
                         {
-                            Game.Water(events.SingleOrDefault(e => e.Event == Event).Yes);
+                            Game.Water(Data.events.SingleOrDefault(e => e.Question == DailyEvent).Yes);
                             break;
                         }
-                        else if (choice("no", "n"))
+                        else if (choice("b"))
                         {
-                            Game.Water(events.SingleOrDefault(e => e.Event == Event).No);
+                            Game.Water(Data.events.SingleOrDefault(e => e.Question == DailyEvent).No);
                             break;
                         }
                         else
                         {
-                            Game.Message("Please answer 'yes' or 'no'.", Color.Red);
+                            Game.Message("A: Yes, B: No", Color.Red);
                         }
+                        Color.Reset();
                     }
                 } else
                 {
                     Game.Message("Today there were no unusual events nearby.", Color.Yellow);
                 }
-                day++;
+                Data.Day++;
                 Console.WriteLine();
             }
             Game.Exit();
         }
 
-        public static int Rnd(int min, int max)
+        public static bool choice(string answer)
         {
-            Random r = new Random();
-            return r.Next(min, max);
-        }
-
-        public static bool choice(string answer1, string answer2)
-        {
-            answer1 = answer1.ToLower();
-            answer2 = answer2.ToLower();
-            if (input.Contains(answer1) || input.Contains(answer2))
+            answer = answer.ToLower();
+            if (input.Contains(answer))
             {
                 return true;
             }
